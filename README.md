@@ -1,4 +1,4 @@
 phpRPG
 ======
 
-RPG framework build on PHP / MySQL
+Web-based RPG engine build on PHP / MySQL

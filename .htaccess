@@ -1,19 +1,22 @@
-# Enable rewrite engine and route requests to framework
+# Turn on URL rewriting
 RewriteEngine On
+
+# Installation directory
 RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-l
+
+# Protect hidden files from being viewed
+<Files .*>
+	Order Deny,Allow
+	Deny From All
+</Files>
+
+# Protect application and system files from being viewed
+# RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
+RewriteRule ^(?:core)\b.* index.php?_url=$0 [L]
+
+# Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule .* index.php [L,QSA]
 
-# Disable ETags
-<IfModule mod_headers.c>
-	Header Unset ETag
-	FileETag none
-</IfModule>
-
-# Default expires header if none specified (stay in browser cache for 7 days)
-<IfModule mod_expires.c>
-	ExpiresActive On
-	ExpiresDefault A604800
-</IfModule>
+# Rewrite all other URLs to index.php/URL
+RewriteRule .* index.php?_url=$0 [PT]
