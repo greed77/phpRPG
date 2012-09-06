@@ -21,10 +21,16 @@ class phpRPGRegistry
 	private static $settings = array();
 
 	/**
-	 * The frameworks human readable name
+	 * The framework's human readable name
 	 * @access private
 	 */
-	private static $frameworkName = 'phpRPG Framework version 0.1';
+	private static $frameworkName = 'phpRPG Framework';
+
+	/**
+	 * The framework's version
+	 * @access private
+	 */
+	private static $frameworkVersion = '0.1';
 
 	/**
 	 * The instance of the registry
@@ -88,6 +94,10 @@ class phpRPGRegistry
 		{
 			return self::$objects[ $key ];
 		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -118,6 +128,15 @@ class phpRPGRegistry
 	public function getFrameworkName()
 	{
 		return self::$frameworkName;
+	}
+
+	/**
+	 * Gets the frameworks version
+	 * @return String
+	 */
+	public function getFrameworkVersion()
+	{
+		return self::$frameworkVersion;
 	}
 
 	/**

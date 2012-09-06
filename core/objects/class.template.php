@@ -11,20 +11,20 @@ if ( !defined( 'phpRPG' ) )
  */
 class template
 {
-	private $page;
+	private $html;
 
 	/**
 	 * Hello!
 	 */
 	public function __construct() 
 	{
-		include( APP_PATH . 'core/objects/class.page.php');
-		$this->page = new Page();
+		include( APP_PATH . 'core/objects/class.html.php');
+		$this->html = new html();
 	}
 
 	/**
 	 * Add a template bit onto our page
-	 * @param String $tag the tag where we insert the template e.g. {hello}
+	 * @param String $tag the tag where we insert the template e.g. {{hello}}
 	 * @param String $bit the template bit (path to file, or just the filename)
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class template
 		{
 			$bit = APP_PATH . 'skins/' . phpRPGRegistry::getSetting('skin') . '/templates/' . $bit;
 		}
-		$this->page->addTemplateBit( $tag, $bit );
+		$this->html->addTemplateBit( $tag, $bit );
 	}
 
 	/**
@@ -44,12 +44,12 @@ class template
 	 */
 	private function replaceBits()
 	{
-		$bits = $this->page->getBits();
+		$bits = $this->html->getBits();
 		foreach( $bits as $tag => $template )
 		{
 			$templateContent = file_get_contents( $bit );
-			$newContent = str_replace( '{{' . $tag . '}}', $templateContent, $this->page->getContent() );
-			$this->page->setContent( $newContent );
+			$newContent = str_replace( '{{' . $tag . '}}', $templateContent, $this->html->getContent() );
+			$this->html->setContent( $newContent );
 		}
 	}
 
@@ -60,7 +60,7 @@ class template
 	private function replaceTags()
 	{
 		// get the tags
-		$tags = $this->page->getTags();
+		$tags = $this->html->getTags();
 		// go through them all
 		foreach( $tags as $tag => $data )
 		{
@@ -81,9 +81,9 @@ class template
 			else
 			{	
 				// replace the content	    	
-				$newContent = str_replace( '{{' . $tag . '}}', $data, $this->page->getContent() );
+				$newContent = str_replace( '{{' . $tag . '}}', $data, $this->html->getContent() );
 				// update the pages content
-				$this->page->setContent( $newContent );
+				$this->html->setContent( $newContent );
 			}
 		}
 	}
@@ -97,7 +97,7 @@ class template
 	private function replaceDBTags( $tag, $cacheId )
 	{
 		$block = '';
-		$blockOld = $this->page->getBlock( $tag );
+		$blockOld = $this->html->getBlock( $tag );
 		
 		// foreach record relating to the query...
 		while ($tags = phpRPGRegistry::getObject('db')->resultsFromCache( $cacheId ) )
@@ -110,11 +110,11 @@ class template
 			}
 			$block .= $blockNew;
 		}
-		$pageContent = $this->page->getContent();
+		$pageContent = $this->html->getContent();
 		// remove the seperator in the template, cleaner HTML
 		$newContent = str_replace( '<!-- START ' . $tag . ' -->' . $blockOld . '<!-- END ' . $tag . ' -->', $block, $pageContent );
 		// update the page content
-		$this->page->setContent( $newContent );
+		$this->html->setContent( $newContent );
 	}
 
 	/**
@@ -125,7 +125,7 @@ class template
 	 */
 	private function replaceDataTags( $tag, $cacheId )
 	{
-		$block = $this->page->getBlock( $tag );
+		$block = $this->html->getBlock( $tag );
 		$blockOld = $block;
 		while ($tags = phpRPGRegistry::getObject('db')->dataFromCache( $cacheId ) )
 		{
@@ -136,9 +136,9 @@ class template
 			}
 			$block .= $blockNew;
 		}
-		$pageContent = $this->page->getContent();
+		$pageContent = $this->html->getContent();
 		$newContent = str_replace( $blockOld, $block, $pageContent );
-		$this->page->setContent( $newContent );
+		$this->html->setContent( $newContent );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class template
 	 */
 	public function getPage()
 	{
-		return $this->page;
+		return $this->html;
 	}
 
 	/**
@@ -172,7 +172,7 @@ class template
 			}
 			
 		}
-		$this->page->setContent( $content );
+		$this->html->setContent( $content );
 	}
 
 	/**
@@ -185,14 +185,14 @@ class template
 	{
 		foreach( $data as $key => $content )
 		{
-			$this->page->addTag( $key.$prefix, $content);
+			$this->html->addTag( $key.$prefix, $content);
 		}
 	}
 
 	public function parseTitle()
 	{
-		$newContent = str_replace('<title>', '<title>'. $page->getTitle(), $this->page->getContent() );
-		$this->page->setContent( $newContent );
+		$newContent = str_replace('<title>', '<title>'. $this->html->getTitle(), $this->html->getContent() );
+		$this->html->setContent( $newContent );
 	}
 
 	/**
