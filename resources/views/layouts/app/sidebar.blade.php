@@ -30,6 +30,17 @@
                         {{ __('Roles') }}
                     </flux:sidebar.item>
                     @endcan
+                    @can('manage-characters')
+                    <flux:sidebar.item icon="globe-alt" :href="route('admin.races.index')" :current="request()->routeIs('admin.races.*')" wire:navigate>
+                        {{ __('Races') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="academic-cap" :href="route('admin.classes.index')" :current="request()->routeIs('admin.classes.*')" wire:navigate>
+                        {{ __('Classes') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="users" :href="route('admin.genders.index')" :current="request()->routeIs('admin.genders.*')" wire:navigate>
+                        {{ __('Genders') }}
+                    </flux:sidebar.item>
+                    @endcan
                 </flux:sidebar.group>
                 @endrole
             </flux:sidebar.nav>

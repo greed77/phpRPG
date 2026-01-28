@@ -24,3 +24,12 @@ Route::middleware(['auth', 'permission:manage-roles'])
         Route::livewire('/roles', 'admin.roles')->name('roles.index');
         Route::livewire('/roles/{role}/edit', 'admin.role-edit')->name('roles.edit');
     });
+
+Route::middleware(['auth', 'permission:manage-characters'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::livewire('/races', 'admin.races')->name('races.index');
+        Route::livewire('/classes', 'admin.character-classes')->name('classes.index');
+        Route::livewire('/genders', 'admin.genders')->name('genders.index');
+    });

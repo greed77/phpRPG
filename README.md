@@ -19,7 +19,7 @@ Web-based RPG engine built on modern web technologies.
 - [ ] Tasks for stat improvement / rewards
 - [ ] Basic shop for character items
 - [ ] Game / server management
-  - [ ] Character properties (gender / race / class)
+  - [x] Character properties (gender / race / class)
   - [ ] Site name
   - [ ] Currency name
 
