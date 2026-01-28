@@ -11,7 +11,7 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                <flux:sidebar.group class="grid">
                     <flux:sidebar.item icon="home" :href="route('internal.dashboard')" :current="request()->routeIs('internal.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
@@ -19,6 +19,19 @@
                         {{ __('Characters') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @role('admin')
+                <flux:sidebar.group heading="Admin" class="grid">
+                    <flux:sidebar.item icon="building-library" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                    @can('manage-roles')
+                    <flux:sidebar.item icon="shield-check" :href="route('admin.roles.index')" :current="request()->routeIs('admin.roles.*')" wire:navigate>
+                        {{ __('Roles') }}
+                    </flux:sidebar.item>
+                    @endcan
+                </flux:sidebar.group>
+                @endrole
             </flux:sidebar.nav>
 
             <flux:spacer />

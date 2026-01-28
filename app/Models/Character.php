@@ -15,4 +15,9 @@ class Character extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getIsActiveAttribute(): bool
+    {
+        return $this->user->active_character_id == $this->id;
+    }
 }

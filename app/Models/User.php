@@ -11,11 +11,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
     use SoftDeletes;
 
     /**
@@ -75,5 +76,17 @@ class User extends Authenticatable
     public function characters(): HasMany
     {
         return $this->hasMany(Character::class);
+    }
+
+    public function activateCharacter($character_id)
+    {
+        $character = Character::findOrFail($character_id);
+        
+        if (!auth()->user()->can('activate', $character)) {
+            abort(403, 'You can only activate your own characters.');
+        }
+        
+        $this->active_character_id = $character_id;
+        $this->save();
     }
 }
