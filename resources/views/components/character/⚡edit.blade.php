@@ -1,20 +1,41 @@
 <?php
 
 use App\Livewire\Forms\CharacterForm;
+use App\Models\Character;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 new
 #[Layout('layouts.app')]
 class extends Component
 {
+    #[Locked]
+    public int $characterId;
+
+    public string $characterName;
+
     public CharacterForm $form;
+
+    public function mount(Character $character): void
+    {
+        Gate::authorize('update', $character);
+
+        $this->characterId = $character->id;
+        $this->characterName = $character->name;
+        $this->form->setCharacter($character);
+    }
 
     public function save(): void
     {
-        $character = $this->form->store();
+        $character = Character::findOrFail($this->characterId);
 
-        session()->flash('success', "Character '{$character->name}' created successfully.");
+        Gate::authorize('update', $character);
+
+        $this->form->update($character);
+
+        session()->flash('success', "Character '{$character->name}' updated successfully.");
 
         $this->redirect(route('internal.character.index'), navigate: true);
     }
@@ -32,8 +53,8 @@ class extends Component
 
 <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="mb-8">
-        <flux:heading size="xl">Create Character</flux:heading>
-        <flux:subheading>Create a new character to begin your adventure</flux:subheading>
+        <flux:heading size="xl">Edit Character: {{ $characterName }}</flux:heading>
+        <flux:subheading>Update your character's details</flux:subheading>
     </div>
 
     <form wire:submit="save">
@@ -42,7 +63,7 @@ class extends Component
                 :races="$races"
                 :classes="$classes"
                 :genders="$genders"
-                submitLabel="Create Character"
+                submitLabel="Update Character"
             />
         </div>
     </form>

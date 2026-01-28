@@ -7,7 +7,8 @@ Route::middleware(['auth'])
     ->group(function () {
         Route::livewire('/dashboard', 'dashboard')->name('dashboard');
         Route::livewire('/characters', 'character.index')->name('character.index');
-        // Generates route name: internal.dashboard
+        Route::livewire('/characters/new', 'character.create')->name('character.create');
+        Route::livewire('/characters/{character}/edit', 'character.edit')->name('character.edit');
     });
 
 Route::middleware(['auth', 'role:admin'])

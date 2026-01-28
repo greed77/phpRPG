@@ -12,13 +12,16 @@ Web-based RPG engine built on modern web technologies.
   - [ ] Give role
   - [ ] Remove role
   - [ ] Disable user
-- [ ] Character creation
-- [ ] Character management
-  - [ ] Edit
-  - [ ] Delete
+- [x] Character management
+  - [x] Add
+  - [x] Edit
+  - [x] Delete
 - [ ] Tasks for stat improvement / rewards
 - [ ] Basic shop for character items
 - [ ] Game / server management
+  - [ ] Character properties (gender / race / class)
+  - [ ] Site name
+  - [ ] Currency name
 
 # Pre 1.0 nice to have
 - [ ] Global chat

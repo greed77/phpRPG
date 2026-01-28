@@ -11,6 +11,13 @@ class Character extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'race',
+        'class',
+        'gender',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

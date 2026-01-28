@@ -17,8 +17,10 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName() . ' ' . fake()->lastName(),
+            'race' => fake()->randomElement(['Human', 'Elf', 'Dwarf', 'Orc', 'Halfling']),
+            'class' => fake()->randomElement(['Warrior', 'Mage', 'Rogue', 'Cleric', 'Ranger']),
+            'gender' => fake()->randomElement(['Male', 'Female', 'Non-binary']),
         ];
-
     }
 }

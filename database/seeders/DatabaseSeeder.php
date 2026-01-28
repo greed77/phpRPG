@@ -15,6 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Seed lookup tables
+        $this->call([
+            RaceSeeder::class,
+            CharacterClassSeeder::class,
+            GenderSeeder::class,
+        ]);
+
         // Create permissions
         $permissions = [
             'manage-roles',
