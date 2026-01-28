@@ -41,6 +41,11 @@
                         {{ __('Genders') }}
                     </flux:sidebar.item>
                     @endcan
+                    @can('manage-settings')
+                    <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.settings')" :current="request()->routeIs('admin.settings')" wire:navigate>
+                        {{ __('Settings') }}
+                    </flux:sidebar.item>
+                    @endcan
                 </flux:sidebar.group>
                 @endrole
             </flux:sidebar.nav>

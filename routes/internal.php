@@ -33,3 +33,10 @@ Route::middleware(['auth', 'permission:manage-characters'])
         Route::livewire('/classes', 'admin.character-classes')->name('classes.index');
         Route::livewire('/genders', 'admin.genders')->name('genders.index');
     });
+
+Route::middleware(['auth', 'permission:manage-settings'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::livewire('/settings', 'admin.settings')->name('settings');
+    });
